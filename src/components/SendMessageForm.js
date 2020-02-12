@@ -1,0 +1,54 @@
+import React, { useState, useContext } from "react";
+import { authContext } from "../context/auth";
+import axios from "axios";
+
+const SendMessageForm = ({fetchChat}) => {
+  const { currentUser } = useContext(authContext);
+  const [messageState, setMessageState] = useState("");
+
+  const onMessageChange = e => {
+    setMessageState(e.target.value);
+  };
+
+  const onSendMessage = () => {
+    axios
+      .post(
+        `https://gal-chat-server.herokuapp.com/api/messages/sendmessage/${currentUser.id}`,
+        { content: messageState }
+      )
+      .then(() => {
+        setMessageState("");
+        fetchChat()
+      });
+  };
+
+  return (
+    <div>
+      <div className="input-group mb-3">
+        <input
+          required
+          value={messageState}
+          onChange={onMessageChange}
+          type="text"
+          className="form-control"
+          placeholder="Write a message here"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+        />
+        <div className="input-group-append">
+          <button
+            onClick={onSendMessage}
+            className="btn btn-outline-secondary"
+            type="button"
+            id="button-addon2"
+          >
+            {" "}
+            <i className="far fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SendMessageForm;
