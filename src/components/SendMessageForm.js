@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react";
 import { authContext } from "../context/auth";
 import axios from "axios";
+import "../styles/chat.css"
 
-const SendMessageForm = ({fetchChat}) => {
+const SendMessageForm = ({ fetchChat }) => {
   const { currentUser } = useContext(authContext);
   const [messageState, setMessageState] = useState("");
 
   const onMessageChange = e => {
+    e.preventDefault();
     setMessageState(e.target.value);
   };
 
@@ -18,35 +20,34 @@ const SendMessageForm = ({fetchChat}) => {
       )
       .then(() => {
         setMessageState("");
-        fetchChat()
+        fetchChat();
       });
   };
 
   return (
-    <div>
-      <div className="input-group mb-3">
+    <div className="chat_SendMessageForm-wrapper">
+      <form className="input-group mb-3" onSubmit={onSendMessage}>
         <input
           required
           value={messageState}
           onChange={onMessageChange}
           type="text"
           className="form-control"
-          placeholder="Write a message here"
+          placeholder="say something"
           aria-label="Recipient's username"
           aria-describedby="button-addon2"
         />
         <div className="input-group-append">
           <button
-            onClick={onSendMessage}
-            className="btn btn-outline-secondary"
-            type="button"
+            className="btn btn-outline-light"
+            type="submit"
             id="button-addon2"
           >
             {" "}
             <i className="far fa-paper-plane"></i>
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

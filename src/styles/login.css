@@ -13,3 +13,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
 }
+
+.login-loginError{
+    margin-top: 4%;
+}

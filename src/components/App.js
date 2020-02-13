@@ -1,19 +1,20 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import Login from "./Login";
 import Chat from "./Chat";
 import PrivateRoute from "./PrivateRoute";
-import { AuthProvider } from "../context/auth";
+import PublicRoute from "./PublicRoute"
 import "../styles/app.css";
+
 
 function App() {
   return (
-    <AuthProvider>
       <BrowserRouter>
-        <PrivateRoute exact path="/" component={Chat} />
-        <Route exact path="/login" component={Login} />
+        <Switch>
+          <PrivateRoute exact path="/" component={Chat} />
+          <PublicRoute  exact path="/login" component={Login}/>
+        </Switch>
       </BrowserRouter>
-    </AuthProvider>
   );
 }
 

@@ -1,0 +1,49 @@
+.chat-Chat-main-wrapper{
+    height: 100vh;
+}
+
+.chat_SendMessageForm-wrapper{
+    margin-bottom: 2%;
+}
+.chat_Chat-messages-wrapper{
+    height: 70vh;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.chat-Chat-settings-wrapper{
+    padding: 0;
+}
+
+.chat-welcome-wrapper{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: center;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+}
+.chat-welcome-wrapper h5 {
+    margin: 0;
+}
+
+.chat-OnlineUser-wrapper{
+    margin: 1%;
+}
+
+.chat-MessageDisplayer-wrapper{
+    display: flex;
+}
+.chat-MessageDisplayer-avatar-element{
+    margin-right: 8px;
+}
+.chat-MessageDisplayer-username-element{
+    margin-right: 8px;
+}
+
+.chat-Chat-settings-icon-buttons-exit{
+    margin-left: 7px;
+}
+
+.chat-Chat-settings-icon-buttons-online{
+    margin-right: 7px;
+}

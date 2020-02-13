@@ -2,21 +2,23 @@ import React, { useContext, useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { authContext } from "../context/auth";
 
-const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
+const PublicRoute = ({ component: RouteComponent, ...rest }) => {
   const { currentUser } = useContext(authContext);
-  useEffect(() => {console.log("from PrivateRoute: ", currentUser)}, [currentUser])
+  useEffect(() => {
+    console.log("from PrivateRoute: ", currentUser);
+  }, [currentUser]);
   return (
     <Route
       {...rest}
       render={routeProps =>
         !!currentUser ? (
-          <RouteComponent {...routeProps} />
+          <Redirect to={"/"} />
         ) : (
-          <Redirect to={"/login"} />
+          <RouteComponent {...routeProps} />
         )
       }
     />
   );
 };
 
-export default PrivateRoute;
+export default PublicRoute;
