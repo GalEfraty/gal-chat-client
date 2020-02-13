@@ -12,6 +12,13 @@ const Chat = () => {
   const [showOnlineUsersState, setShowOnlineUsersState] = useState(false);
   const numberOfMessagesToRetrive = 10;
 
+  window.addEventListener("onClose", async(ev) => 
+  {  
+      ev.preventDefault();
+      await axios.get(`https://gal-chat-server.herokuapp.com/api/users/updateUserToOffline/${currentUser.id}`)
+      return ev.returnValue = 'Are you sure you want to close?';
+  });
+
   const onExitChat = () => {
     axios
       .put(
@@ -24,7 +31,6 @@ const Chat = () => {
   };
 
   const fetchChat = async () => {
-    console.log("fetchChat");
     axios
       .get(
         `https://gal-chat-server.herokuapp.com/api/users/getOnlineUsersAndCount/${currentUser.id}`

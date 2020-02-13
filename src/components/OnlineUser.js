@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { authContext } from "../context/auth";
 
 const OnlineUser = ({ user }) => {
-  console.log(user);
   const { currentUser } = useContext(authContext);
   const isMe = currentUser.id === user["id"];
   const me = <i className="fas fa-user chat-Chat-settings-icon-buttons-online"></i>;

@@ -1,21 +1,31 @@
 import React, { useState, createContext, useEffect } from "react";
+import axios from "axios";
 
 export const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   useEffect(() => {
-    fetchUser()
-  }, [])
+    fetchUser();
+  }, []);
 
   const [currentUser, setCurrentUser] = useState(null);
-  const fetchUser = () => {
+  const fetchUser = async () => {
     const user = JSON.parse(localStorage.getItem("chatUser"));
-    setCurrentUser(user)
-  }
+    if (user) {
+      const result = await axios.get(
+        `https://gal-chat-server.herokuapp.com/api/users/findUser/${user.id}`
+      );
+      if (!result.data) {
+        return localStorage.removeItem("chatUser");
+      }
+    }
 
-  const changeUser = (newUser) =>{
-      setCurrentUser(newUser)
-  }
+    setCurrentUser(user);
+  };
+
+  const changeUser = newUser => {
+    setCurrentUser(newUser);
+  };
 
   return (
     <authContext.Provider
