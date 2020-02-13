@@ -71,32 +71,35 @@ const Chat = () => {
   }, []);
 
   return (
-    <div className="container bg-primary chat-Chat-main-wrapper">
-      <div className="rounded border border-primary container chat-welcome-wrapper">
-        <h5 className="text-light">Welcome to Chat, {currentUser.name}</h5>
+    <div className="container-fluid bg-primary chat-Chat-main-wrapper">
+      <div className="container">
+        <div className="rounded border border-primary container chat-welcome-wrapper">
+          <h5 className="text-light">Welcome to Chat, {currentUser.name}</h5>
+        </div>
+        <div className="container  chat-Chat-settings-wrapper">
+          <button
+            className="btn btn-outline-primary rounded bg-light"
+            onClick={toggleOnlineUsers}
+          >
+            <i className="fas fa-wifi chat-Chat-settings-icon-buttons-online"></i>
+            {onlineUsersState.count} Online Users
+          </button>
+          <button
+            className="btn btn-outline-primary rounded float-right bg-light"
+            onClick={onExitChat}
+          >
+            Exit{" "}
+            <i className="fas fa-sign-out-alt chat-Chat-settings-icon-buttons-exit"></i>
+          </button>
+        </div>
+        {showOnlineUsersState && (
+          <OnlineUsersList onlineUsers={onlineUsersState} />
+        )}
+        <div className="container border border-secondary rounded chat_Chat-messages-wrapper bg-light overflow-auto">
+          {messagesState && renderMessages()}
+        </div>
+        <SendMessageForm fetchChat={fetchChat} />
       </div>
-      <div className="container  chat-Chat-settings-wrapper">
-        <button
-          className="btn btn-outline-primary rounded bg-light"
-          onClick={toggleOnlineUsers}
-        >
-          <i className="fas fa-wifi chat-Chat-settings-icon-buttons-online"></i>
-          {onlineUsersState.count} Online Users
-        </button>
-        <button
-          className="btn btn-outline-primary rounded float-right bg-light"
-          onClick={onExitChat}
-        >
-          Exit <i className="fas fa-sign-out-alt chat-Chat-settings-icon-buttons-exit"></i>
-        </button>
-      </div>
-      {showOnlineUsersState && (
-        <OnlineUsersList onlineUsers={onlineUsersState} />
-      )}
-      <div className="container border border-secondary rounded chat_Chat-messages-wrapper bg-light overflow-auto">
-        {messagesState && renderMessages()}
-      </div>
-      <SendMessageForm fetchChat={fetchChat} />
     </div>
   );
 };
