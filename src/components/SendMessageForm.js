@@ -8,11 +8,11 @@ const SendMessageForm = ({ fetchChat }) => {
   const [messageState, setMessageState] = useState("");
 
   const onMessageChange = e => {
-    e.preventDefault();
     setMessageState(e.target.value);
   };
 
-  const onSendMessage = () => {
+  const onSendMessage = (e) => {
+    e.preventDefault();
     axios
       .post(
         `https://gal-chat-server.herokuapp.com/api/messages/sendmessage/${currentUser.id}`,
