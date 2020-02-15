@@ -13,7 +13,8 @@ const SendMessageForm = ({ fetchChat }) => {
 
   const onSendMessage = (e) => {
     e.preventDefault();
-    axios
+    try {
+      axios
       .post(
         `https://gal-chat-server.herokuapp.com/api/messages/sendmessage/${currentUser.id}`,
         { content: messageState }
@@ -22,6 +23,12 @@ const SendMessageForm = ({ fetchChat }) => {
         setMessageState("");
         fetchChat();
       });
+    } catch (error) {
+      console.log("error in onSendMessage: ", error)
+      window.alert("unable to send message, try again later")
+      setMessageState("");
+    }
+
   };
 
   return (

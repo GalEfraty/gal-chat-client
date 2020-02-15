@@ -5,7 +5,6 @@ import { authContext } from "../context/auth";
 const PublicRoute = ({ component: RouteComponent, ...rest }) => {
   const { currentUser } = useContext(authContext);
   useEffect(() => {
-    console.log("from PrivateRoute: ", currentUser);
   }, [currentUser]);
   return (
     <Route

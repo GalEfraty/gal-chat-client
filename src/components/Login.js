@@ -16,23 +16,28 @@ const Login = ({ history }) => {
 
   const handleLogin = async e => {
     e.preventDefault();
-    const available = await axios.get(
-      `https://gal-chat-server.herokuapp.com/api/users/isUserAvailable/${nicknameState}`
-    );
-    if (available.data.available === false) {
-      return setErrorState(
-        `${nicknameState} is taken. please choose another name`
+    try {
+      const available = await axios.get(
+        `https://gal-chat-server.herokuapp.com/api/users/isUserAvailable/${nicknameState}`
       );
+      if (available.data.available === false) {
+        return setErrorState(
+          `${nicknameState} is taken. please choose another name`
+        );
+      }
+      setErrorState("");
+      const {
+        data: { user }
+      } = await axios.post(
+        `https://gal-chat-server.herokuapp.com/api/users/findAndUpdateOrCreate/${nicknameState}`
+      );
+      localStorage.setItem("chatUser", JSON.stringify(user));
+      changeUser(user);
+      history.push("/");
+    } catch (error) {
+      console.log("error in handleLogin", error)
+      setErrorState("unable to login, please try again later")
     }
-    setErrorState("");
-    const {
-      data: { user }
-    } = await axios.post(
-      `https://gal-chat-server.herokuapp.com/api/users/findAndUpdateOrCreate/${nicknameState}`
-    );
-    localStorage.setItem("chatUser", JSON.stringify(user));
-    changeUser(user);
-    history.push("/");
   };
 
   return (

@@ -12,39 +12,61 @@ const Chat = () => {
   const [showOnlineUsersState, setShowOnlineUsersState] = useState(false);
   const numberOfMessagesToRetrive = 10;
 
-  window.addEventListener("onClose", async(ev) => 
-  {  
-      ev.preventDefault();
-      await axios.get(`https://gal-chat-server.herokuapp.com/api/users/updateUserToOffline/${currentUser.id}`)
-      return ev.returnValue = 'Are you sure you want to close?';
-  });
+  window.onbeforeunload = function(e) {
+    e.preventDefault();
+    return "Please press the Exit button if you want to leave the chat";
+}
+  // window.addEventListener('beforeunload', function (e) {
+  //   e.preventDefault();
+  //   e.returnValue = ;
+  // });
 
-  const onExitChat = () => {
-    axios
-      .put(
-        `https://gal-chat-server.herokuapp.com/api/users/updateUserToOffline/${currentUser.id}`
-      )
-      .then(() => {
-        localStorage.removeItem("chatUser");
-        changeUser();
-      });
-  };
+  useEffect(() => {
+    fetchChat();
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      fetchChat();
+    }, 5000);
+  }, []);
 
   const fetchChat = async () => {
-    axios
-      .get(
-        `https://gal-chat-server.herokuapp.com/api/users/getOnlineUsersAndCount/${currentUser.id}`
-      )
-      .then(result => {
-        setOnlineUsersState(result.data);
-      });
-    axios
-      .get(
-        `https://gal-chat-server.herokuapp.com/api/messages/getLastMessages/${numberOfMessagesToRetrive}/${currentUser.id}`
-      )
-      .then(result => {
-        setMessagesState(result.data.messages.reverse());
-      });
+    try {
+      axios
+        .get(
+          `https://gal-chat-server.herokuapp.com/api/users/getOnlineUsersAndCount/${currentUser.id}`
+        )
+        .then(result => {
+          setOnlineUsersState(result.data);
+        });
+      axios
+        .get(
+          `https://gal-chat-server.herokuapp.com/api/messages/getLastMessages/${numberOfMessagesToRetrive}/${currentUser.id}`
+        )
+        .then(result => {
+          setMessagesState(result.data.messages.reverse());
+        });
+    } catch (error) {
+      console.log("error in fetchChat: ", error);
+      window.alert("unable to get chat detaild.. try again later");
+    }
+  };
+
+  const onExitChat = () => {
+    try {
+      axios
+        .put(
+          `https://gal-chat-server.herokuapp.com/api/users/updateUserToOffline/${currentUser.id}`
+        )
+        .then(() => {
+          localStorage.removeItem("chatUser");
+          changeUser();
+        });
+    } catch (error) {
+      console.log("error in onExitChat: ", error);
+      window.alert("unable to logout user");
+    }
   };
 
   const renderMessages = () => {
@@ -65,16 +87,6 @@ const Chat = () => {
       ? setShowOnlineUsersState(false)
       : setShowOnlineUsersState(true);
   };
-
-  useEffect(() => {
-    fetchChat();
-  }, []);
-
-  useEffect(() => {
-    setInterval(() => {
-      fetchChat();
-    }, 5000);
-  }, []);
 
   return (
     <div className="container-fluid bg-primary chat-Chat-main-wrapper">
