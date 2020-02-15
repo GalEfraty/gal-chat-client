@@ -16,10 +16,6 @@ const Chat = () => {
     e.preventDefault();
     return "Please press the Exit button if you want to leave the chat";
 }
-  // window.addEventListener('beforeunload', function (e) {
-  //   e.preventDefault();
-  //   e.returnValue = ;
-  // });
 
   useEffect(() => {
     fetchChat();
