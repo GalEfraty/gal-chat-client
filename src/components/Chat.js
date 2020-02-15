@@ -12,11 +12,6 @@ const Chat = () => {
   const [showOnlineUsersState, setShowOnlineUsersState] = useState(false);
   const numberOfMessagesToRetrive = 10;
 
-  window.onbeforeunload = function(e) {
-    e.preventDefault();
-    return "Please press the Exit button if you want to leave the chat";
-}
-
   useEffect(() => {
     fetchChat();
   }, []);
